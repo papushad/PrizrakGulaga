@@ -19,6 +19,7 @@ namespace PrizrakGulaga
         public static MessageEventArgs messageEvent;
         private static ArrayList randomAnswerToTagPrizrak;
         private static ArrayList randoAnswerToBot;
+        public static int forwardedMessageId;
 
 
         // chat ID "-1001468546184"
@@ -34,17 +35,22 @@ namespace PrizrakGulaga
 
             
 
+           // forwardRandomMessageFromAnotherGroup();
             client.OnMessage += OnMessageHandler;
             client.OnMessage += ReplyToTag;
             client.OnMessage += ReplyToBot;
+            
             SendRandomMessage();
-            Console.ReadLine();
             SendDice();
             client.StopReceiving();
+            
+            
             
 
             
         }
+
+        
 
         private static async void ReplyToTag(object sender, MessageEventArgs e)
         {
@@ -66,6 +72,9 @@ namespace PrizrakGulaga
                     await client.SendTextMessageAsync(msg.Chat.Id, rndFraze, replyToMessageId: msg.MessageId);
                 }
             }
+
+           // forwardRandomMessageFromAnotherGroup();
+
         }
 
 
@@ -95,19 +104,20 @@ namespace PrizrakGulaga
         private static async void OnMessageHandler(object sender, MessageEventArgs e)
         {
             var msg = e.Message;
-           
             var timeNow = DateTime.Now;
+            Console.WriteLine("MessageId from user: "+ msg.MessageId);
+            
+            
 
-            Console.WriteLine(msg.Text);
+            
+            /*  Console.WriteLine("Time now: "+timeNow);
+              Console.WriteLine("Time -10: "+timeNow.AddMinutes(-10));
+              Console.WriteLine("Message date: "+msg.Date);  */
 
-          /*  Console.WriteLine("Time now: "+timeNow);
-            Console.WriteLine("Time -10: "+timeNow.AddMinutes(-10));
-            Console.WriteLine("Message date: "+msg.Date);  */
-           
             var msgDate = msg.Date.AddHours(3);
 
 
-            if (msg.Text != null & msgDate > timeNow.AddMinutes(-10))
+            if (msg.Text != null & msgDate > timeNow.AddMinutes(-2))
             {
 
                 var randomInstance = new Random();
@@ -125,7 +135,7 @@ namespace PrizrakGulaga
             }
             else 
             {
-                Console.WriteLine("false");
+                //Console.WriteLine("false");
             }
 
         }
@@ -253,5 +263,25 @@ namespace PrizrakGulaga
             await client.SendDiceAsync(-1001468546184, false, 1, null, default, Emoji.Dice);
            
         }
+
+
+        //ne vorkae
+        public static async void forwardRandomMessageFromAnotherGroup()
+        {
+
+            //var msg = e.Message;
+
+            /* Console.WriteLine("ForwardFromChat.Description: " + msg.ForwardFromChat.Description);
+             Console.WriteLine("ForwardFromChat.Id: " + msg.ForwardFromChat.Id);
+             Console.WriteLine("ForwardFromChat.Username: " + msg.ForwardFromChat.Username);
+             Console.WriteLine("From.Username: " + msg.From.Username);
+             Console.WriteLine("ForwardFrom: " + msg.ForwardFrom);
+             Console.WriteLine("ForwardFromMessageId: " + msg.ForwardFromMessageId);*/
+            
+            await client.ForwardMessageAsync("-1001468546184", "-1001468546184", 71543);  //аморач
+           
+
+        }
+
     }
 }
