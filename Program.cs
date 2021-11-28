@@ -24,7 +24,10 @@ namespace PrizrakGulaga
 
         // chat ID "-1001468546184"
         // мій id 778263684
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
 
 
         static void Main(string[] args)
